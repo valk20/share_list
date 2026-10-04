@@ -1,0 +1,15 @@
+services:
+  db:
+    image: mysql:latest
+    container_name: main_database
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-postgres}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-listshare}
+    ports:
+      - "${MYSQL_PORT:-3306}:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+volumes:
+  mysql_data:

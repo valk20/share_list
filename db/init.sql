@@ -1,0 +1,61 @@
+
+CREATE TABLE IF NOT EXISTS users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    password_hash VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+CREATE TABLE IF NOT EXISTS lists (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    owner_id INT NOT NULL,
+    title VARCHAR(150) NOT NULL,
+    category VARCHAR(50),
+    is_public BOOLEAN DEFAULT FALSE,
+    forked_from_id INT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_lists_owner 
+        FOREIGN KEY (owner_id) REFERENCES users(id) ON DELETE CASCADE,
+    CONSTRAINT fk_lists_forked 
+        FOREIGN KEY (forked_from_id) REFERENCES lists(id) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+CREATE TABLE IF NOT EXISTS list_items (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    list_id INT NOT NULL,
+    title VARCHAR(255) NOT NULL,
+    is_completed BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_items_list 
+        FOREIGN KEY (list_id) REFERENCES lists(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+CREATE TABLE IF NOT EXISTS list_likes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    list_id INT NOT NULL,
+    user_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_likes_list 
+        FOREIGN KEY (list_id) REFERENCES lists(id) ON DELETE CASCADE,
+    CONSTRAINT fk_likes_user 
+        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    CONSTRAINT uq_user_list_like 
+        UNIQUE (list_id, user_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+CREATE TABLE IF NOT EXISTS list_comments (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    list_id INT NOT NULL,
+    user_id INT NOT NULL,
+    content TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_comments_list 
+        FOREIGN KEY (list_id) REFERENCES lists(id) ON DELETE CASCADE,
+    CONSTRAINT fk_comments_user 
+        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
