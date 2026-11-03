@@ -1,0 +1,374 @@
+/* CSS Design System for ShareList - Theme, i18n RTL & Background Presets */
+
+:root {
+  --font-sans: 'Plus Jakarta Sans', 'Rubik', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* Default Dark Mode Tokens */
+  --bg-primary: #090d16;
+  --bg-secondary: #0f172a;
+  --bg-card: rgba(15, 23, 42, 0.82);
+  --bg-card-hover: rgba(30, 41, 59, 0.92);
+  --bg-elevated: #1e293b;
+  --bg-input: rgba(15, 23, 42, 0.88);
+
+  --border-subtle: rgba(148, 163, 184, 0.16);
+  --border-focus: #6366f1;
+  --border-glow: rgba(99, 102, 241, 0.35);
+
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --text-dim: #64748b;
+
+  /* Accent Tones */
+  --accent-primary: #6366f1;
+  --accent-primary-hover: #4f46e5;
+  --accent-cyan: #06b6d4;
+  --accent-emerald: #10b981;
+  --accent-amber: #f59e0b;
+  --accent-rose: #f43f5e;
+  --accent-violet: #8b5cf6;
+
+  /* Category Chip Tokens (Dark) */
+  --chip-bg: rgba(30, 41, 59, 0.75);
+  --chip-text: #94a3b8;
+  --chip-border: rgba(148, 163, 184, 0.22);
+  --chip-hover-bg: rgba(51, 65, 85, 0.85);
+  --chip-hover-text: #f8fafc;
+  --chip-active-bg: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+  --chip-active-text: #ffffff;
+  --chip-active-border: #6366f1;
+  --chip-active-shadow: 0 0 16px rgba(99, 102, 241, 0.4);
+
+  /* Log Level Tokens */
+  --log-debug-bg: rgba(100, 116, 139, 0.15);
+  --log-debug-text: #94a3b8;
+  --log-debug-border: rgba(100, 116, 139, 0.3);
+
+  --log-info-bg: rgba(6, 182, 212, 0.12);
+  --log-info-text: #38bdf8;
+  --log-info-border: rgba(6, 182, 212, 0.3);
+
+  --log-warn-bg: rgba(245, 158, 11, 0.15);
+  --log-warn-text: #fbbf24;
+  --log-warn-border: rgba(245, 158, 11, 0.3);
+
+  --log-error-bg: rgba(244, 63, 94, 0.15);
+  --log-error-text: #fb7185;
+  --log-error-border: rgba(244, 63, 94, 0.3);
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-full: 9999px;
+
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 12px 30px -5px rgba(0, 0, 0, 0.5), 0 8px 12px -6px rgba(0, 0, 0, 0.4);
+  --shadow-glow: 0 0 25px rgba(99, 102, 241, 0.25);
+}
+
+/* Light Mode Overrides */
+[data-theme="light"] {
+  --bg-primary: #f8fafc;
+  --bg-secondary: #ffffff;
+  --bg-card: rgba(255, 255, 255, 0.92);
+  --bg-card-hover: rgba(248, 250, 252, 0.98);
+  --bg-elevated: #f1f5f9;
+  --bg-input: #ffffff;
+
+  --border-subtle: rgba(15, 23, 42, 0.12);
+  --border-focus: #4f46e5;
+  --border-glow: rgba(79, 70, 229, 0.25);
+
+  --text-main: #0f172a;
+  --text-muted: #334155;
+  --text-dim: #64748b;
+
+  /* Category Chip Tokens (Light - Crisp, High Contrast) */
+  --chip-bg: #ffffff;
+  --chip-text: #334155;
+  --chip-border: #cbd5e1;
+  --chip-hover-bg: #f1f5f9;
+  --chip-hover-text: #0f172a;
+  --chip-active-bg: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+  --chip-active-text: #ffffff;
+  --chip-active-border: #4f46e5;
+  --chip-active-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+
+  --shadow-lg: 0 12px 30px -5px rgba(15, 23, 42, 0.08), 0 8px 12px -6px rgba(15, 23, 42, 0.04);
+}
+
+/* RTL Specific Overrides */
+[dir="rtl"] {
+  font-family: 'Rubik', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  text-align: right;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-primary);
+  color: var(--text-main);
+  line-height: 1.5;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1), color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background-attachment: fixed;
+  position: relative;
+}
+
+/* Ensure app root sits above fixed background accents */
+#root {
+  position: relative;
+  z-index: 1;
+}
+
+/* ======================================================== */
+/* BACKGROUND PRESET BASE COLORS                           */
+/* ======================================================== */
+
+/* 1. Dark Modern */
+body[data-bg="dark-modern"] {
+  background-color: #070b12;
+}
+[data-theme="light"] body[data-bg="dark-modern"],
+body[data-theme="light"][data-bg="dark-modern"] {
+  background-color: #f1f5f9;
+}
+
+/* 2. Minimal */
+body[data-bg="minimal"] {
+  background-color: #090d16;
+}
+[data-theme="light"] body[data-bg="minimal"],
+body[data-theme="light"][data-bg="minimal"] {
+  background-color: #f8fafc;
+}
+
+/* 3. Vibrant Gradient */
+body[data-bg="vibrant"] {
+  background-color: #0a0e1a;
+  background-image: linear-gradient(135deg, rgba(30, 27, 75, 0.6) 0%, rgba(15, 23, 42, 0.8) 50%, rgba(8, 51, 68, 0.6) 100%);
+}
+[data-theme="light"] body[data-bg="vibrant"],
+body[data-theme="light"][data-bg="vibrant"] {
+  background-color: #f8fafc;
+  background-image: linear-gradient(135deg, rgba(224, 231, 255, 0.6) 0%, rgba(237, 233, 254, 0.6) 40%, rgba(204, 251, 241, 0.6) 100%);
+}
+
+/* 4. Soft Mesh */
+body[data-bg="mesh"] {
+  background-color: #080c14;
+}
+[data-theme="light"] body[data-bg="mesh"],
+body[data-theme="light"][data-bg="mesh"] {
+  background-color: #f8fafc;
+}
+
+/* Scrollbar customization */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.3);
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.5);
+}
+
+/* Glassmorphism card utility */
+.glass-panel {
+  background: var(--bg-card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  transition: all 0.25s ease;
+}
+
+.glass-panel:hover {
+  border-color: rgba(148, 163, 184, 0.3);
+}
+
+/* Button styles */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 10px 18px;
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  text-decoration: none;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%);
+  box-shadow: 0 6px 18px rgba(99, 102, 241, 0.5);
+  transform: translateY(-1px);
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-secondary {
+  background: var(--bg-card);
+  color: var(--text-main);
+  border: 1px solid var(--border-subtle);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: var(--bg-card-hover);
+  border-color: rgba(148, 163, 184, 0.35);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text-muted);
+}
+
+.btn-ghost:hover {
+  background: rgba(148, 163, 184, 0.12);
+  color: var(--text-main);
+}
+
+.btn-sm {
+  padding: 6px 12px;
+  font-size: 0.8125rem;
+}
+
+/* Category Filter Chips (High Contrast & Theme-Aware) */
+.filter-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--chip-border);
+  background: var(--chip-bg);
+  color: var(--chip-text);
+  font-family: inherit;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.filter-chip:hover {
+  background: var(--chip-hover-bg);
+  color: var(--chip-hover-text);
+  border-color: rgba(99, 102, 241, 0.4);
+  transform: translateY(-1px);
+}
+
+.filter-chip.active {
+  background: var(--chip-active-bg);
+  color: var(--chip-active-text) !important;
+  border-color: var(--chip-active-border);
+  box-shadow: var(--chip-active-shadow);
+  transform: translateY(-1px);
+}
+
+/* Form input styling */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.form-label {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.form-input {
+  width: 100%;
+  padding: 10px 14px;
+  background: var(--bg-input);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  color: var(--text-main);
+  font-family: inherit;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+.form-input:focus {
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+}
+
+.form-input::placeholder {
+  color: var(--text-dim);
+}
+
+/* Badges */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.badge-info {
+  background: var(--log-info-bg);
+  color: var(--log-info-text);
+  border: 1px solid var(--log-info-border);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
