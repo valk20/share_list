@@ -1,6 +1,6 @@
 services:
   db:
-    image: mysql:latest
+    image: mysql:8.4
     container_name: main_database
     restart: unless-stopped
     environment:
@@ -10,6 +10,25 @@ services:
       - "${MYSQL_PORT:-3306}:3306"
     volumes:
       - mysql_data:/var/lib/mysql
-      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./db/init-sql:/docker-entrypoint-initdb.d:ro
+  grafana:
+    image: grafana/grafana:12.2.0
+    container_name: grafana
+    restart: unless-stopped
+    depends_on:
+      - db
+    ports:
+      - "3000:3000"
+    environment:
+      GF_MYSQL_HOST: ${GF_MYSQL_HOST:-db}
+      GF_MYSQL_USER: ${GF_MYSQL_USER:-grafana_reader}
+      GF_MYSQL_PASSWORD: ${GF_MYSQL_PASSWORD:-password}
+      GF_MYSQL_DATABASE: ${GF_MYSQL_DATABASE:-listshare}
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./grafana/dashboards:/etc/grafana/dashboards:ro
+
 volumes:
   mysql_data:
+  grafana_data:
