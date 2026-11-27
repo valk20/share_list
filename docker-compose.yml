@@ -35,7 +35,7 @@ services:
     depends_on:
       - db
     ports:
-      - "3000:3000"
+      - "${GRAFANA_PORT:-3001}:3000"
     environment:
       GF_MYSQL_HOST: ${GF_MYSQL_HOST:-db}
       GF_MYSQL_USER: ${GF_MYSQL_USER:-grafana_reader}
