@@ -9,5 +9,5 @@ providers:
     updateIntervalSeconds: 30 # Hot-reloads changes every 30s
     allowUiUpdates: false # Keep false so files remain the single source of truth
     options:
-      path: grafana/provisioning/dashboards
+      path: /etc/grafana/dashboards
       foldersFromFilesStructure: false
