@@ -1,4 +1,5 @@
 services:
+  # ─── DATABASE ────────────────────────────────────────────────────────────────
   db:
     image: mysql:8.4
     container_name: main_database
