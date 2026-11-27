@@ -1,8 +1,8 @@
 services:
-# ─── DATABASE ────────────────────────────────────────────────────────────────
+  # ─── DATABASE ────────────────────────────────────────────────────────────────
   db:
-    image: mysql:latest
-    container_name: database_v1
+    image: mysql:8.4
+    container_name: main_database
     restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-postgres}
@@ -11,13 +11,8 @@ services:
       - "${MYSQL_PORT:-3306}:3306"
     volumes:
       - mysql_data:/var/lib/mysql
-      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      interval: 5s
-      timeout: 5s
-      retries: 10
-# ─── API ───────────────────────────────────────────────────────────────────────
+      - ./db/init-sql:/docker-entrypoint-initdb.d:ro
+  # ─── API ───────────────────────────────────────────────────────────────────────
   api:
     build:
       context: ./backend
@@ -25,14 +20,32 @@ services:
     container_name: api_v1
     restart: unless-stopped
     ports:
-      - "${API_PORT:-3000}:3000"
+      - "${API_PORT:-4000}:3000"
     env_file:
       - .env
     environment:
       - DB_HOST=db
     depends_on:
-      db:
-        condition: service_healthy
+      - db
+  # ─── GRAFANA ──────────────────────────────────────────────────────────────────
+  grafana:
+    image: grafana/grafana:12.2.0
+    container_name: grafana
+    restart: unless-stopped
+    depends_on:
+      - db
+    ports:
+      - "3000:3000"
+    environment:
+      GF_MYSQL_HOST: ${GF_MYSQL_HOST:-db}
+      GF_MYSQL_USER: ${GF_MYSQL_USER:-grafana_reader}
+      GF_MYSQL_PASSWORD: ${GF_MYSQL_PASSWORD:-password}
+      GF_MYSQL_DATABASE: ${GF_MYSQL_DATABASE:-listshare}
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./grafana/dashboards:/etc/grafana/dashboards:ro
 # ─── VOLUMES ───────────────────────────────────────────────────────────────────
 volumes:
   mysql_data:
+  grafana_data:

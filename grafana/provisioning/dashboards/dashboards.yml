@@ -1,0 +1,13 @@
+apiVersion: 1
+
+providers:
+  - name: "ListShare Dashboards"
+    orgId: 1
+    folder: "ListShare" # Creates a folder in Grafana UI
+    type: file
+    disableDeletion: true # Prevents accidental deletion in UI
+    updateIntervalSeconds: 30 # Hot-reloads changes every 30s
+    allowUiUpdates: false # Keep false so files remain the single source of truth
+    options:
+      path: /etc/grafana/dashboards
+      foldersFromFilesStructure: false
